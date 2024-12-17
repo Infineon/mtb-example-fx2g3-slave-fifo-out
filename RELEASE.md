@@ -1,4 +1,4 @@
-# Slave FIFO OUT Application 1.0
+# Slave FIFO OUT Application 1.0.1
 
 ## What's Included?
 

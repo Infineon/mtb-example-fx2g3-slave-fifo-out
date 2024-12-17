@@ -59,9 +59,9 @@ extern "C" {
 #define DELAY_MILLI(ms)                 Cy_SysLib_Delay(ms)
 
 
-#define    SET_BIT(byte, mask)               (byte) |= (mask)
-#define CLR_BIT(byte, mask)               (byte) &= ~(mask)
-#define CHK_BIT(byte, mask)               (byte) & (mask)
+#define	SET_BIT(byte, mask)		       (byte) |= (mask)
+#define CLR_BIT(byte, mask)		       (byte) &= ~(mask)
+#define CHK_BIT(byte, mask)		       (byte) & (mask)
 #define FPS_DEFAULT                    (60)
 #define FPGA_ENABLE                    (1)
 
