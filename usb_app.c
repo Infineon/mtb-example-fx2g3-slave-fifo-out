@@ -407,7 +407,11 @@ void Cy_Slff_AppTaskHandler(void *pTaskParam)
     vTaskDelay(100);
 
     /* If VBus is present, enable the USB connection. */
-    pAppCtxt->vbusPresent = (Cy_GPIO_Read(VBUS_DETECT_GPIO_PORT, VBUS_DETECT_GPIO_PIN) == VBUS_DETECT_STATE);
+    pAppCtxt->vbusPresent =
+    (Cy_GPIO_Read(VBUS_DETECT_GPIO_PORT, VBUS_DETECT_GPIO_PIN) == VBUS_DETECT_STATE);
+#if USBFS_LOGS_ENABLE
+    vTaskDelay(500);
+#endif /* USBFS_LOGS_ENABLE */
     if (pAppCtxt->vbusPresent) {
         Cy_USB_EnableUsbHSConnection(pAppCtxt);
     }
@@ -642,21 +646,21 @@ void Cy_USB_AppRegisterCallback(cy_stc_usb_app_ctxt_t *pAppCtxt)
     cy_stc_usb_usbd_ctxt_t *pUsbdCtxt = pAppCtxt->pUsbdCtxt;
 
     Cy_USBD_RegisterCallback(pUsbdCtxt, CY_USB_USBD_CB_RESET, Cy_USB_AppBusResetCallback);
-	
+    
     Cy_USBD_RegisterCallback(pUsbdCtxt, CY_USB_USBD_CB_RESET_DONE, Cy_USB_AppBusResetDoneCallback);
-	
+    
     Cy_USBD_RegisterCallback(pUsbdCtxt, CY_USB_USBD_CB_BUS_SPEED, Cy_USB_AppBusSpeedCallback);
-	
+    
     Cy_USBD_RegisterCallback(pUsbdCtxt, CY_USB_USBD_CB_SETUP, Cy_USB_AppSetupCallback);
-	
+    
     Cy_USBD_RegisterCallback(pUsbdCtxt, CY_USB_USBD_CB_SUSPEND, Cy_USB_AppSuspendCallback);
-	
+    
     Cy_USBD_RegisterCallback(pUsbdCtxt, CY_USB_USBD_CB_RESUME, Cy_USB_AppResumeCallback);
-	
+    
     Cy_USBD_RegisterCallback(pUsbdCtxt, CY_USB_USBD_CB_SET_CONFIG, Cy_USB_AppSetCfgCallback);
-	
+    
     Cy_USBD_RegisterCallback(pUsbdCtxt, CY_USB_USBD_CB_SET_INTF, Cy_USB_AppSetIntfCallback);
-	
+    
     Cy_USBD_RegisterCallback(pUsbdCtxt, CY_USB_USBD_CB_SLP, Cy_USB_AppSlpCallback);
 }
 
@@ -1503,18 +1507,18 @@ void Cy_USB_AppInitDmaIntr(uint32_t endpNumber, cy_en_usb_endp_dir_t endpDirecti
 #if (!CY_CPU_CORTEX_M4)
         if (endpDirection == CY_USB_ENDP_DIR_IN)
         {
-		    intrCfg.intrPriority = 3;
-        	intrCfg.intrSrc = NvicMux1_IRQn;
+            intrCfg.intrPriority = 3;
+            intrCfg.intrSrc = NvicMux1_IRQn;
             /* DW1 channels 0 onwards are used for IN endpoints. */
             intrCfg.cm0pSrc = (cy_en_intr_t)(cpuss_interrupts_dw1_0_IRQn + endpNumber);
         }
-		else
-		{
-			intrCfg.intrPriority = 3;
-        	intrCfg.intrSrc = NvicMux6_IRQn;
+        else
+        {
+            intrCfg.intrPriority = 3;
+            intrCfg.intrSrc = NvicMux6_IRQn;
             /* DW0 channels 0 onwards are used for OUT endpoints. */
             intrCfg.cm0pSrc = (cy_en_intr_t)(cpuss_interrupts_dw0_0_IRQn + endpNumber);
-		}
+        }
 #else
         intrCfg.intrPriority = 5;
         if (endpDirection == CY_USB_ENDP_DIR_IN)

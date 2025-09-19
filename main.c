@@ -555,7 +555,7 @@ void Cy_USB_USBHSInit(void)
        SIP0 DMA - NVIC Mux #4
        USBHS Active & DeepSleep - NVIC Mux #5
        DataWire 0 - NVIC Mux #6
-	   DataWire 1 - NVIC Mux #1
+       DataWire 1 - NVIC Mux #1
     */
     /* Register edge detect interrupt for Vbus detect GPIO. */
 #if CY_CPU_CORTEX_M4
@@ -752,7 +752,7 @@ int main(void)
     /* Create task for printing logs and check status. */
     xTaskCreate(PrintTaskHandler, "PrintLogTask", 512, NULL, 5, &printLogTaskHandle);
 
-    Cy_SysLib_Delay(500);
+    Cy_SysLib_Delay(250);
     Cy_Debug_AddToLog(1, "********** FX2G3: LVCMOS SlaveFIFO OUT Application ********** \r\n");
 
     /* Print application, USBD stack and HBDMA version information. */
@@ -807,8 +807,8 @@ int main(void)
     vTaskStartScheduler();
     while (1)
     {
-    	Cy_SysLib_Delay(10000);
-    	DBG_APP_INFO("Task Idle\r\n");
+        Cy_SysLib_Delay(10000);
+        DBG_APP_INFO("Task Idle\r\n");
     }
 
     return 0;

@@ -3,17 +3,16 @@
 This code example explains the configuration and usage of Sensor Interface Port (SIP) on the **EZ-USB&trade; FX2G3** device to implement the Synchronous Slave FIFO OUT protocol.
 A master device that implements the Infineon-defined Synchronous Slave FIFO protocol is required to perform data transfers with this application.
 
-> **Note:** This code example is an alpha release only for EZ-USB&trade; FX2G3 devices.
 
 [View this README on GitHub.](https://github.com/Infineon/mtb-example-fx2g3-slave-fifo-out)
 
-[Provide feedback on this code example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyNDA2ODUiLCJTcGVjIE51bWJlciI6IjAwMi00MDY4NSIsIkRvYyBUaXRsZSI6IkVaLVVTQiZ0cmFkZTsgRlgyRzM6IExWQ01PUyBTbGF2ZSBGSUZPIE9VVCBhcHBsaWNhdGlvbiIsInJpZCI6InN1a3UiLCJEb2MgdmVyc2lvbiI6IjEuMC4yIiwiRG9jIExhbmd1YWdlIjoiRW5nbGlzaCIsIkRvYyBEaXZpc2lvbiI6Ik1DRCIsIkRvYyBCVSI6IldJUkVEIiwiRG9jIEZhbWlseSI6IkhTTFNfVVNCIn0=)
+[Provide feedback on this code example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyNDA2ODUiLCJTcGVjIE51bWJlciI6IjAwMi00MDY4NSIsIkRvYyBUaXRsZSI6IkVaLVVTQiZ0cmFkZTsgRlgyRzM6IExWQ01PUyBTbGF2ZSBGSUZPIE9VVCBhcHBsaWNhdGlvbiIsInJpZCI6InN1a3UiLCJEb2MgdmVyc2lvbiI6IjEuMC4zIiwiRG9jIExhbmd1YWdlIjoiRW5nbGlzaCIsIkRvYyBEaXZpc2lvbiI6Ik1DRCIsIkRvYyBCVSI6IldJUkVEIiwiRG9jIEZhbWlseSI6IkhTTFNfVVNCIn0=)
 
 
 ## Requirements
 
 
-- [ModusToolbox&trade;](https://www.infineon.com/modustoolbox) v3.4 or later (tested with v3.4)
+- [ModusToolbox&trade;](https://www.infineon.com/modustoolbox) v3.5 or later (tested with v3.5)
 - Board support package (BSP) minimum required version: 4.3.3
 - Programming language: C
 - Associated parts: [EZ-USB&trade; FX2G3](https://www.infineon.com/cms/en/product/promopages/ez-usb-fx2g3/)
@@ -22,7 +21,7 @@ A master device that implements the Infineon-defined Synchronous Slave FIFO prot
 
 ## Supported toolchains (make variable 'TOOLCHAIN')
 
-- GNU Arm&reg; Embedded Compiler v11.3.1 (`GCC_ARM`) – Default value of `TOOLCHAIN`
+- GNU Arm&reg; Embedded Compiler v14.2.1 (`GCC_ARM`) – Default value of `TOOLCHAIN`
 - Arm&reg; Compiler v6.22 (`ARM`)
 
 
@@ -42,9 +41,11 @@ See the [ModusToolbox&trade; tools package installation guide](https://www.infin
 
 Install a terminal emulator if you don't have one. Instructions in this document use [Tera Term](https://teratermproject.github.io/index-en.html).
 
-Install the **EZ-USB&trade; FX Control Center** (Alpha) application from the [Infineon Developer Center](https://softwaretools.infineon.com/tools/com.ifx.tb.tool.ezusbfxcontrolcenter).
+Install the **EZ-USB&trade; FX Control Center** (Alpha) application from [Infineon Developer Center](https://softwaretools.infineon.com/tools/com.ifx.tb.tool.ezusbfxcontrolcenter).
 
-This example requires no additional software or tools.
+### Optional Software
+
+[EZ-USB&trade; GPIF III Designer](https://softwaretools.infineon.com/tools/com.ifx.tb.tool.ezusbgpifiiidesigner) - EZ-USB&trade; GPIF III Designer, a desktop application that guides the process of defining general programmable interface and state machine to generate C source header for FX device family.
 
 
 ## Using the code example
@@ -141,42 +142,96 @@ For more details, see the [ModusToolbox&trade; tools package user guide](https:/
 
 </details>
 
+### Using this code example with specific products
+
+By default, the code example builds for the `CYUSB2318-BF104AXI` product.
+
+#### List of supported products
+
+- `CYUSB2318-BF104AXI`
+
+- `CYUSB2317-BF104AXI`
+
+#### Setup for a different product
+
+Perform the following steps to build this code example for a different, supported product:
+
+1. Launch the BSP assistant tool:
+
+   a. **Eclipse IDE:** Launch the **BSP Assistant** tool by navigating to **Quick Panel** > **Tools**
+
+   b. **Visual Studio Code:** Select the ModusToolbox&trade; extension from the menu bar, and launch the **BSP Assistant** tool, available in the **Application** menu of the **MODUSTOOLBOX TOOLS** section from the left pane
+
+2. In **BSP Assistant**, select **Devices** from the tree view on the left
+
+3. Choose `CYUSB231x-BF104AXI` from the drop-down menu, on the right
+
+4. Click **Save**
+
+   This closes the **BSP Assistant** tool.
+
+5. Navigate the project with the IDE's **Explorer** and delete the *GeneratedSource* folder (if available) at *`<bsp-root-folder>`/bsps/TARGET_APP_KIT_FX2G3_104LGA/config*
+
+   > Note: For products `CYUSB2315-BF104AXI` and `CYUSB2316-BF104AXI`, additionally delete the `*.cyqspi` file from the config/ directory
+
+6. Launch the **Device Configurator** tool
+
+   a. **Eclipse IDE:** Select your project in the project explorer, and launch the **Device Configurator** tool by navigating to **Quick Panel** > **Tools**
+
+   b. **Visual Studio Code:** Select the ModusToolbox&trade; extension from the left menu bar, and launch the **Device Configurator** tool, available in the **BSP** menu of the **MODUSTOOLBOX TOOLS** section from the left pane
+
+7. Correct the issues (if any) specified in the **Errors** section on the bottom
+
+   a. For a switch from the `CYUSB2318-BF104AXI` product to any other, a new upper limit of 100 MHz is imposed on the desired frequency that can originate from the PLL. Select this issue and change the desired frequency from 150 MHz to 75 MHz
+
+   b. The `CLK_PERI` clock, which is derived from this new source frequency, is also affected. To restore it to its original frequency, go to the **System Clocks** tab, select `CLK_PERI`, and set its divider to '1' (instead of '2')
+
+> **Note:** For the `CYUSB2315-BF104AXI` product, to enable UART logging through SCB, follow the steps below:<br>
+a. Set the `USBFS_LOGS_ENABLE` macro to `0` in the **Makefile**<br>
+b. In **main.c**, modify the SCB configuration by changing `LOGGING_SCB` from `(SCB4)` to `(SCB0)`, `LOGGING_SCB_IDX` from `(4)` to `(0)` and the value of `dbgCfg.dbgIntfce` from `CY_DEBUG_INTFCE_UART_SCB4` to `CY_DEBUG_INTFCE_UART_SCB0`<br>
+c. Launch the Device Configurator tool to disable `SCB4`, and enable `SCB0` for UART. Set `921600` baud, `9` Oversample, and use the `16 bit Divider 0 clk` clock
+
 
 ## Operation
 
-1. Connect the board (J2) to your PC using the provided USB cable. Connect the USBFS port (J7) on the board to PC for debug logs
+**Note:** This code example currently supports Windows hosts. Support for Linux and macOS will be added in upcoming releases.
 
-2. Open a terminal program and select the Serial COM port. Set the serial port parameters to 8N1 and 921600 baud
+1. Connect the board (J2) to your PC using the provided USB cable
 
-3. Perform the following steps to program the board using the [**EZ-USB&trade; FX Control Center**](https://softwaretools.infineon.com/tools/com.ifx.tb.tool.ezusbfxcontrolcenter) (Alpha) application
+2. Connect the USBFS port (J7) on the board to the PC for debug logs
 
-   1. To enter into Bootloader mode:
+3. Open a terminal program and select the Serial COM port. Set the serial port parameters to 8N1 and 921600 baud
+
+4. Perform the following steps to program the board using the [**EZ-USB&trade; FX Control Center**](https://softwaretools.infineon.com/tools/com.ifx.tb.tool.ezusbfxcontrolcenter) (Alpha) application
+
+   1. Perform the following steps to enter into the **Bootloader** mode:
 
       a. Press and hold the **PMODE** (**SW1**) switch<br>
       b. Press and release the **RESET** switch<br>
-      c. Finally, release the **PMODE** switch<br>
+      c. Release the **PMODE** switch<br>
 
-   2. Open **EZ-USB&trade; FX Control Center** application. <br> **EZ-USB&trade; FX2G3** device displays as **EZ-USB&trade; FX Bootloader**
+   2. Open **EZ-USB&trade; FX Control Center** application
+   The **EZ-USB&trade; FX2G3** device displays as **EZ-USB&trade; FX Bootloader**
 
    3. Navigate to **Program** > **Internal Flash**
 
-   4. Navigate to the */build/APP_KIT_FX2G3_104LGA/Release/* folder within the CE directory and locate the *.hex* file and program
+   4. Navigate to the */build/APP_KIT_FX2G3_104LGA/Release/* folder within the CE directory and locate the *.hex* file, and program
 
-   5. Select the **FX2G3 Flash** loader device in the **EZ-USB&trade; FX Control Center**
+   5. Select the **EZ-USB&trade; FX Bootloader** device in **EZ-USB&trade; FX Control Center**
 
    6. Navigate to **Program** > **External Flash**
 
    7. Browse the FPGA binary file in **\<CE Title>/BitFile** folder based on the configuration
 
-   8. Once the FPGA binary programming is successful, return to the USB bootloader mode <br> Once the firmware binary has been programmed onto the FX2G3 device flash, the bootloader will keep transferring control to the application on every subsequent reset
+   8. Once the FPGA binary programming is successful, return to the USB **Bootloader** mode <br> Once the firmware binary has been programmed onto the FX2G3 device flash, the bootloader will keep transferring control to the application on every subsequent reset
 
-   9. To return the control to USB bootloader, press **BOOT MODE/PMODE (SW1)** switch on *KIT_FX2G3_104LGA DVK* <br> While the device is reset or power cycled, the device will stay in the bootloader mode instead of booting into the application
+   9. To return the control to USB bootloader, press **BOOT MODE/PMODE (SW1)** to switch on *KIT_FX2G3_104LGA DVK* <br> While the device is reset or power cycled, the device will stay in the **Bootloader** mode instead of booting into the application
 
    10. Select the **FX Bootloader** device in **EZ-USB&trade; FX Control Center** and navigate to **Program** > **Internal Flash**
 
-   11. Navigate to the **/build/APP_KIT_FX2G3_104LGA/Release/** folder within the CE directory and locate the *.hex* file, and program <br> Confirm if the programming is successful in the log window of the FX Control Center application
+   11. Navigate to the **/build/APP_KIT_FX2G3_104LGA/Release/** folder within the CE directory and locate the *.hex* file, and program <br> Confirm if the programming is successful in the log window of the **EZ-USB&trade; FX Control Center** application
 
-4. After programming, the application starts automatically. Confirm that the title is displayed on the UART terminal as follows:
+5. After programming, the application starts automatically. Confirm that the title is displayed on the UART terminal as follows:
 
    **Figure 1. Terminal output on program startup**
 
@@ -184,7 +239,7 @@ For more details, see the [ModusToolbox&trade; tools package user guide](https:/
 
    The device will enumerate as a WinUSB device.
 
-5. When **WinUSB** device appears, open FX Control Center application, navigate to the **Performance Measurement** tab and initiate **BULK OUT Data** transfers on the selected endpoint
+6. When the **WinUSB** device appears, open **EZ-USB&trade; FX Control Center**, navigate to the **Performance Measurement** tab and initiate **BULK OUT Data** transfers on the selected endpoint
 
 
 ## Debugging
@@ -213,9 +268,9 @@ Follow the instructions in your preferred IDE.
 
 By default, the USBFS port is enabled for debug logs.
 
-To enable debug logs on UART, set the `USBFS_LOGS_ENABLE` compiler flag to '0u' in the *Makefile*. SCB4 of the EZ-USB&trade; FX2G3 device is used as UART with a baud rate of 921,600 to send out log messages through the P11.0 pin.
+To enable debug logs on UART, set **USBFS_LOGS_ENABLE** compiler flag to '0u' in *Makefile*. SCB4 of the EZ-USB&trade; FX2G3 device is used as UART with a baud rate of 921,600 to send out log messages through the P11.0 pin.
 
-The verbosity of the debug log output can be modified by setting the `DEBUG_LEVEL` macro in the *main.c* file shown in **Table 1**.
+The verbosity of the debug log output can be modified by setting the **DEBUG_LEVEL** macro in *main.c* file with the following values for debugging:
 
 **Table 1. Debug values**
 
@@ -229,9 +284,6 @@ Macro value     |    Description
 
 
 ## Design and implementation
-
-> **Note:** The EZ-USB&trade; FX2G3 device has four MPNs/OPNs, each with distinct features. By default, this code example is compatible with the `CYUSB2318-BF104AXI` MPN, which is available on the `KIT_FX2G3_104LGA` kit. To use this code example with other MPNs, evaluate MPN compatibility and align it with the corresponding feature set. For details, contact the [Infineon support](https://www.infineon.com/cms/en/about-infineon/company/contacts/support/).
-
 
 This code example demonstrates the implementation of a Synchronous Slave FIFO interface, where the Sensor Interface Port (SIP) on the EZ-USB&trade; FX2G3 device is connected to an FPGA/Master, enabling read access to the internal FIFO buffers of the EZ-USB&trade; FX2G3 device. This application uses various low-performance peripherals to interface with the system such as:
 
@@ -263,8 +315,11 @@ This code example demonstrates the implementation of a Synchronous Slave FIFO in
 
 ### Application workflow
 
-The application flow involves three main steps: Initialization, USB device enumeration, and Slave FIFO OUT transfer.
+The application flow involves three main steps:
 
+   - Initialization 
+   - USB device enumeration
+   - Slave FIFO OUT transfer
 
 #### Initialization
 
@@ -277,15 +332,15 @@ During initialization, the following steps are performed:
 6. Application registers handlers for all relevant interrupts
 7. Application makes the USB device visible to the host by calling the Connect API
 8. FPGA is configured using the SMIF (in x4 or quad mode) block to read the bit file stored in the external flash. FPGA sees the data on bus and gets configured
-   > **Note:** If REV02 Kit is used, FPGA is configured using SMIF in x4 or Quad mode else (for REV01) FPGA is configured using SMIF in x1 or Single mode
+	> **Note:** If REV02 Kit is used, FPGA is configured using SMIF in x4 or Quad mode else (for REV01) FPGA is configured using SMIF in x1 or Single mode
 9. FPGA is initialized using I2C writes to FPGA registers
 10. Application initializes the SIP block on EZ-USB&trade; FX2G3 as required by the selected LVCMOS operating mode
 
 
 #### USB device enumeration
 
-1. During USB device enumeration, the host requests for descriptors, which are already registered with the USBD layer during the initialization phase
-2. Host will send `SET_CONFIGURATION` command and `SET_INTERFACE` commands to activate the required function in the device
+1. During USB device enumeration, the host requests for descriptors that are already registered with the USBD layer during the initialization phase
+2. The host sends the `SET_CONFIGURATION` and `SET_INTERFACE` commands to activate the required function in the device
 3. After the `SET_CONFIGURATION` and `SET_INTERFACE` commands, the application task takes control and enables the endpoints for data transfer
 
 
@@ -308,7 +363,7 @@ P0CTL1            | SLWR#               | Active LOW Write Enable signal. Should
 P0CTL2            | SLOE#               | Active LOW Output Enable signal
 P0CTL3            | SLRD#               | Active LOW Read Enable signal. Not used in this application as data is only being received by FX2G3
 P0CTL4            | PKTEND#             | Active LOW Packet End signal. Should be asserted (LOW) when the FPGA/master wants to terminate the ongoing DMA transfer
-P0CTL5            | FlagA               | Active LOW DMA ready indication for currently addressed/ active thread
+P0CTL5            | FlagA               | Active LOW DMA ready indication for currently addressed/active thread
 P0D8              | A0                  | LS bit of 2-bit address bus used to select thread (applicable for 8-bit LVCMOS bus width)
 P0D9              | A1                  | MS bit of 2-bit address bus used to select thread (applicable for 8-bit LVCMOS bus width)
 P1CTL9            | A0                  | LS bit of 2-bit address bus used to select thread (applicable for 16-bit LVCMOS bus width)
@@ -319,16 +374,14 @@ P1CTL8            | A1                  | MS bit of 2-bit address bus used to se
 
 ![](images/fx2g3-slave-fifo.png)
 
-> **Note:** Slave FIFO signals - SLCS#, SLRD#, SLOE#, FlagA, A0, A1 are applications for this code examples.
+> **Note:** Slave FIFO signals - SLCS#, SLRD#, SLOE#, FlagA, A0, and A1 are applications for this code examples.
 
 
-### Compile-time configurations
+## Compile-time configurations
 
-Application functionality can be customized by setting variables in *Makefile* or by configuring them through `make` CLI arguments.
+This application's functionality can be customized by setting variables in *Makefile* or by configuring them through `make` CLI arguments.
 
-- Run the `make build` command or build the project in your IDE to compile the application and generate a USB bootloader-compatible binary. This binary can be programmed onto the EZ-USB&trade; FX2G3 device using the EZ-USB&trade; Control Center application
-
-- Run the `make build BLENABLE=no` command or set the variable in *Makefile* to compile the application and generate the standalone binary. This binary can be programmed onto the EZ-USB&trade; FX2G3 device through the SWD interface using the OpenOCD tool. For more details, see the [EZ-USB&trade; FX2G3 SDK user guide](./docs/EZ-USB-FX2G3-SDK-User-Guide.pdf)
+- Run the `make build` command or build the project in your IDE to compile the application and generate a USB bootloader-compatible binary. This binary can be programmed onto the EZ-USB&trade; FX2G3 device using the EZ-USB&trade; FX Control Center application
 
 - Run the `make build CORE=CM0P` command or set the variable in *Makefile* to compile and generate the binary for the Cortex&reg; M0+ core. By default, `CORE` is set as `CM4` and the binary is compiled and generated for the Cortex&reg; M4 core
 
@@ -341,10 +394,10 @@ By default, the application is configured to receive data from a 16-bit wide LVC
 
 **Table 2. Macro description**
 
- Macro name        |  Description                          | Allowed values
- :--------         | :-------------                        | :------------
- BUS_WIDTH_16      | Select the LVCMOS bus width           | 1u for 16-bit. <br> 0u for 8-bit bus width
- USBFS_LOGS_ENABLE | Enable debug logs through USBFS port  | 1u for debug logs over USBFS <br> 0u for debug logs over UART (SCB4)
+Macro name        |  Description                          | Allowed values
+:--------         | :-------------                        | :------------
+BUS_WIDTH_16      | Select the LVCMOS bus width           | 1u for 16-bit <br> 0u for 8-bit bus width
+USBFS_LOGS_ENABLE | Enable debug logs through the USBFS port  | 1u for debug logs over USBFS <br> 0u for debug logs over UART (SCB4)
 
 <br>
 
@@ -355,7 +408,7 @@ The FPGA binary in *BitFile* folder of the project can be programmed to an exter
 
 Perform the following steps to program the binary file to the external flash.
 
-1. Program *mtb-example-fx2g3-flash-loader.hex* using the **EZ-USB&trade; FX Control Center**
+1. Program *mtb-example-fx2g3-flash-loader.hex* using **EZ-USB&trade; FX Control Center**
 2. Navigate to **Program** > **External Flash** and browse the *FPGA binary* file
 3. Check the programming status
 
@@ -367,13 +420,14 @@ BitFile                                         |    Description
 *FX2G3_Design_PassiveX1_8Bit_LVCMOS_TX.bin*     | LVCMOS TX 8-bit for REV01 kit
 *FX2G3_Design_PassiveX4_16Bit_LVCMOS_TX.bin*    | LVCMOS TX 16-bit for REV02 kit (default)          
 *FX2G3_Design_PassiveX4_8Bit_LVCMOS_TX.bin*     | LVCMOS TX 8-bit for REV02 kit
+
 <br>
 
 ## FPGA configuration
 FPGA configuration is done using the SMIF Block of FX2G3. SMIF (in x4 or Quad mode) interface is used for downloading the FPGA configuration binary on every bootup
 Steps to configure FPGA (in Passive serialx4 mode)
 - FX2G3 deasserts INT_RESET pin
-- FX2G3 starts sending dummy SMIF (in x4 or quad mode) clock to read the fpga BitFile from SPI flash
+- FX2G3 starts sending dummy SMIF (in x4 or Quad mode) clock to read the FPGA BitFile from SPI flash
 - FPGA listens to the data on the SMIF lines and configures itself
 - FPGA asserts CDONE# when configuration is complete
 
@@ -384,8 +438,9 @@ GPIO5            | CDONE#              | Active HIGH signal. FPGA asserts when F
 GPIO6            | INT_RESET#          | Active LOW signal. FX device asserts to reset the FPGA
 GPIO7            | PROG#               | Active LOW FPGA program signal
 
+<br>
 
-### Application files
+## Application files
 
 **Table 4. Application file description**
 
@@ -403,6 +458,8 @@ File                                | Description
 *cm0_code.c*                        | CM0 initialization code
 *Makefile*                          | GNU make compliant build script for compiling this example
 
+<br>
+
 ## Related resources
 
 Resources  | Links
@@ -411,10 +468,14 @@ User guide | [EZ-USB&trade; FX2G3 SDK user guide](./docs/EZ-USB-FX2G3-SDK-User-G
 Code examples  | [Using ModusToolbox&trade;](https://github.com/Infineon/Code-Examples-for-ModusToolbox-Software) on GitHub
 Device documentation | [EZ-USB&trade; FX2G3 datasheets](https://www.infineon.com/cms/en/product/promopages/ez-usb-fx2g3/#!?fileId=8ac78c8c90530b3a01909c03f29537e0)
 Development kits | Select your kits from the [Evaluation board finder](https://www.infineon.com/cms/en/design-support/finder-selection-tools/product-finder/evaluation-board).
-Libraries on GitHub | [mtb-pdl-cat1](https://github.com/Infineon/mtb-pdl-cat1) – Peripheral Driver Library (PDL) and docs
-Middleware on GitHub  | [usbfxstack](https://github.com/Infineon/usbfxstack) – USBFXStack middleware library and docs
-Tools  | [ModusToolbox&trade;](https://www.infineon.com/modustoolbox) – ModusToolbox&trade; software is a collection of easy-to-use libraries and tools enabling rapid development with Infineon MCUs for applications ranging from wireless and cloud-connected systems, edge AI/ML, embedded sense and control, to wired USB connectivity using PSOC&trade; Industrial/IoT MCUs, AIROC&trade; Wi-Fi and Bluetooth&reg; connectivity devices, XMC&trade; Industrial MCUs, and EZ-USB&trade;/EZ-PD&trade; wired connectivity controllers. ModusToolbox&trade; incorporates a comprehensive set of BSPs, HAL, libraries, configuration tools, and provides support for industry-standard IDEs to fast-track your embedded application development.
+Libraries on GitHub | [mtb-pdl-cat1](https://github.com/Infineon/mtb-pdl-cat1) – Peripheral Driver Library (PDL) and documents
+Middleware on GitHub  | [usbfxstack](https://github.com/Infineon/usbfxstack) – USBFXStack middleware library and documents
+Tools  | [ModusToolbox&trade;](https://www.infineon.com/modustoolbox) – ModusToolbox&trade; software is a collection of easy-to-use libraries and tools enabling rapid development with Infineon MCUs for applications ranging from wireless and cloud-connected systems, edge AI/ML, embedded sense and control, to wired USB connectivity using PSOC&trade; Industrial/IoT MCUs, AIROC&trade; Wi-Fi and Bluetooth&reg; connectivity devices, XMC&trade; Industrial MCUs, and EZ-USB&trade;/EZ-PD&trade; wired connectivity controllers. ModusToolbox&trade; incorporates a comprehensive set of BSPs, HAL, libraries, configuration tools, and provides support for industry-standard IDEs to fast-track your embedded application development
 <br>
+
+### Compatibility information:
+* This code example uses the PDL layer for direct communication with device peripherals, without relying on HAL peripheral APIs
+* This code example relies on the USBFXStack middleware library for USBFS and does not support USBFS through the USB Device Middleware Library
 
 
 ## Other resources
@@ -424,13 +485,14 @@ Infineon provides a wealth of data at [www.infineon.com](https://www.infineon.co
 
 ## Document history
 
-Document title: *CE240685* – *EZ-USB&trade; FX2G3: LVCMOS slave FIFO OUT application*
+Document title: *CE240685* – *EZ-USB&trade; FX2G3: LVCMOS Slave FIFO OUT application*
 
  Version | Description of change
  ------- | ---------------------
  1.0.0   | New code example
  1.0.1   | Updated for REV02 Kit
  1.0.2   | Updated for CM0+
+ 1.0.3   | Updated to use the example with other products
 <br>
 
 
