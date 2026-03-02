@@ -7,15 +7,15 @@
 #
 ################################################################################
 # \copyright
-# Copyright (2025), Cypress Semiconductor Corporation (an Infineon company)
+# Copyright (2026), Cypress Semiconductor Corporation (an Infineon company)
 # SPDX-License-Identifier: Apache-2.0
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -81,7 +81,7 @@ VERBOSE=
 -include bsps/TARGET_$(TARGET)/bsp.mk
 
 # Specify the default product.
-# NOTE: This default setting is intended for internal use only and does not impact user builds, even if the sales product target is modified.
+# NOTE: This default setting is intended for internal use only and does not impact user builds, even if the product target is modified.
 DEVICE ?= CYUSB2318-BF104AXI
 
 # Ensure that the specified product (DEVICE) is supported by this code example
@@ -139,13 +139,13 @@ INCLUDES=
 # Add additional defines to the build process (without a leading -D).
 DEFINES= \
         FX2G3_EN=1 \
-		LVCMOS_16BIT_SDR=1 \
+        LVCMOS_16BIT_SDR=1 \
         BCLK__BUS_CLK__HZ=75000000 \
         DEBUG_INFRA_EN=1 \
         FREERTOS_ENABLE=1 \
         USBFS_LOGS_ENABLE=1 \
-        BUS_WIDTH_16=1
-
+        BUS_WIDTH_16=1 \
+        FPGA_CONFIG_EN=1
 # Append product definition
 DEFINES += $(subst -,_,$(DEVICE))=1
 
@@ -162,13 +162,13 @@ endif
 
 # Select softfp or hardfp floating point. Default is softfp.
 ifeq ($(CORE), CM4)
-	ifeq ($(TOOLCHAIN), GCC_ARM)
-	    VFP_SELECT= softfp
-	else ifeq ($(TOOLCHAIN), ARM)
-	    VFP_SELECT= soft
-	endif
+    ifeq ($(TOOLCHAIN), GCC_ARM)
+        VFP_SELECT= softfp
+    else ifeq ($(TOOLCHAIN), ARM)
+        VFP_SELECT= soft
+    endif
 else ifeq ($(CORE), CM0P)
-	VFP_SELECT=
+    VFP_SELECT=
 endif
 
 # Additional / custom C compiler flags.
@@ -176,19 +176,19 @@ endif
 # NOTE: Includes and defines should use the INCLUDES and DEFINES variable
 # above.
 ifeq ($(CORE), CM4)
-	ifeq ($(TOOLCHAIN), GCC_ARM)
-	    CFLAGS= -Os -Og -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb -ffunction-sections -fdata-sections -g
-	else ifeq ($(TOOLCHAIN), ARM)
-	    CFLAGS= -Os -Og -mcpu=Cortex-M4 -mfpu=fpv4-sp-d16 -mthumb -ffunction-sections -fdata-sections -g \
-	            --target=arm-arm-none-eabi -fno-rtti -fno-exceptions -Wno-error -fshort-wchar -fshort-enums
-	endif
+    ifeq ($(TOOLCHAIN), GCC_ARM)
+        CFLAGS= -Os -Og -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb -ffunction-sections -fdata-sections -g
+    else ifeq ($(TOOLCHAIN), ARM)
+        CFLAGS= -Os -Og -mcpu=Cortex-M4 -mfpu=fpv4-sp-d16 -mthumb -ffunction-sections -fdata-sections -g \
+                --target=arm-arm-none-eabi -fno-rtti -fno-exceptions -Wno-error -fshort-wchar -fshort-enums
+    endif
 else ifeq ($(CORE), CM0P)
-	ifeq ($(TOOLCHAIN), GCC_ARM)
-	    CFLAGS= -Os -Og -mcpu=cortex-m0plus -mthumb -ffunction-sections -fdata-sections -g
-	else ifeq ($(TOOLCHAIN), ARM)
-	    CFLAGS= -Os -Og -mcpu=Cortex-M0plus -mthumb -ffunction-sections -fdata-sections -g \
-	            --target=arm-arm-none-eabi -fno-rtti -fno-exceptions -Wno-error -fshort-wchar -fshort-enums
-	endif
+    ifeq ($(TOOLCHAIN), GCC_ARM)
+        CFLAGS= -Os -Og -mcpu=cortex-m0plus -mthumb -ffunction-sections -fdata-sections -g
+    else ifeq ($(TOOLCHAIN), ARM)
+        CFLAGS= -Os -Og -mcpu=Cortex-M0plus -mthumb -ffunction-sections -fdata-sections -g \
+                --target=arm-arm-none-eabi -fno-rtti -fno-exceptions -Wno-error -fshort-wchar -fshort-enums
+    endif
 endif
 
 
@@ -206,17 +206,17 @@ ASFLAGS=
 
 # Additional / custom linker flags.
 ifeq ($(CORE), CM4)
-	ifeq ($(TOOLCHAIN), GCC_ARM)
-	    LDFLAGS=-Wl,--start-group -mcpu=cortex-m4 -mthumb --entry=Reset_Handler -Wl,--gc-sections -g -ffunction-sections -finline-functions -Os -Wl,--end-group
-	else ifeq ($(TOOLCHAIN), ARM)
-	    LDFLAGS=--cpu=Cortex-M4 --entry=Reset_Handler --diag_suppress=L6329W,L6314W 
-	endif
+    ifeq ($(TOOLCHAIN), GCC_ARM)
+        LDFLAGS=-Wl,--start-group -mcpu=cortex-m4 -mthumb --entry=Reset_Handler -Wl,--gc-sections -g -ffunction-sections -finline-functions -Os -Wl,--end-group
+    else ifeq ($(TOOLCHAIN), ARM)
+        LDFLAGS=--cpu=Cortex-M4 --entry=Reset_Handler --diag_suppress=L6329W,L6314W 
+    endif
 else ifeq ($(CORE), CM0P)
-	ifeq ($(TOOLCHAIN), GCC_ARM)
-	    LDFLAGS=-Wl,--start-group -mcpu=cortex-m0plus -mthumb --entry=Reset_Handler -Wl,--gc-sections -g -ffunction-sections -finline-functions -Os -Wl,--end-group
-	else ifeq ($(TOOLCHAIN), ARM)
-	    LDFLAGS=--cpu=Cortex-M0plus --entry=Reset_Handler --diag_suppress=L6329W,L6314W
-	endif
+    ifeq ($(TOOLCHAIN), GCC_ARM)
+        LDFLAGS=-Wl,--start-group -mcpu=cortex-m0plus -mthumb --entry=Reset_Handler -Wl,--gc-sections -g -ffunction-sections -finline-functions -Os -Wl,--end-group
+    else ifeq ($(TOOLCHAIN), ARM)
+        LDFLAGS=--cpu=Cortex-M0plus --entry=Reset_Handler --diag_suppress=L6329W,L6314W
+    endif
 endif
 
 # Additional / custom libraries to link in to the application.
@@ -232,12 +232,12 @@ ifeq ($(CORE),CM4)
         LINKER_SCRIPT = $(if $(filter GCC_ARM,$(TOOLCHAIN)),linker_scripts/$(subst -,_,$(DEVICE))/fx_cm4.ld,linker_scripts/$(subst -,_,$(DEVICE))/fx_cm4_dual.sct)
     endif
 else ifeq ($(CORE),CM0P)
-	ifeq ($(BLENABLE), yes)
-		# Use loadable linker script for CM0P core
-		LINKER_SCRIPT = $(if $(filter GCC_ARM,$(TOOLCHAIN)),linker_scripts/$(subst -,_,$(DEVICE))/fx_cm0plus_loadable.ld,linker_scripts/$(subst -,_,$(DEVICE))/fx_cm0plus_loadable.sct)
-	else
-		# Use linker script for CM0P core
-    	LINKER_SCRIPT = $(if $(filter GCC_ARM,$(TOOLCHAIN)),linker_scripts/$(subst -,_,$(DEVICE))/fx_cm0plus.ld,linker_scripts/$(subst -,_,$(DEVICE))/fx_cm0plus.sct)
+    ifeq ($(BLENABLE), yes)
+        # Use loadable linker script for CM0P core
+        LINKER_SCRIPT = $(if $(filter GCC_ARM,$(TOOLCHAIN)),linker_scripts/$(subst -,_,$(DEVICE))/fx_cm0plus_loadable.ld,linker_scripts/$(subst -,_,$(DEVICE))/fx_cm0plus_loadable.sct)
+    else
+        # Use linker script for CM0P core
+        LINKER_SCRIPT = $(if $(filter GCC_ARM,$(TOOLCHAIN)),linker_scripts/$(subst -,_,$(DEVICE))/fx_cm0plus.ld,linker_scripts/$(subst -,_,$(DEVICE))/fx_cm0plus.sct)
     endif
 endif
 
@@ -250,14 +250,14 @@ ifeq ($(BLENABLE), yes)
     POSTBUILD=\
         $(CY_MCUELFTOOL) --sign build/$(TARGET)/$(CONFIG)/$(APPNAME).elf SHA256 --output build/$(TARGET)/$(CONFIG)/$(APPNAME).sha.elf && \
         $(OBJCOPY) -O ihex --gap-fill 0 build/$(TARGET)/$(CONFIG)/$(APPNAME).sha.elf build/$(TARGET)/$(CONFIG)/$(APPNAME).hex
-else 
-	ifeq ($(TOOLCHAIN), GCC_ARM)
-	    POSTBUILD=\
-	        $(OBJCOPY) -O ihex build/$(TARGET)/$(CONFIG)/$(APPNAME).elf build/$(TARGET)/$(CONFIG)/$(APPNAME).hex
-	else ifeq ($(TOOLCHAIN), ARM)
-	    POSTBUILD=\
-	        $(FROMELF) --i32combined --base=0x10000000 -o build/$(TARGET)/$(CONFIG)/$(APPNAME).hex build/$(TARGET)/$(CONFIG)/$(APPNAME).elf
-	endif
+else
+    ifeq ($(TOOLCHAIN), GCC_ARM)
+        POSTBUILD=\
+            $(OBJCOPY) -O ihex build/$(TARGET)/$(CONFIG)/$(APPNAME).elf build/$(TARGET)/$(CONFIG)/$(APPNAME).hex
+    else ifeq ($(TOOLCHAIN), ARM)
+        POSTBUILD=\
+            $(FROMELF) --i32combined --base=0x10000000 -o build/$(TARGET)/$(CONFIG)/$(APPNAME).hex build/$(TARGET)/$(CONFIG)/$(APPNAME).elf
+    endif
 endif
 
 ################################################################################
@@ -312,7 +312,7 @@ endif
 
 $(info Tools Directory: $(CY_TOOLS_DIR))
 
-# Path to Elf tool directory. 
+# Path to Elf tool directory.
 CY_MCUELFTOOL_DIR=$(wildcard $(CY_TOOLS_DIR)/cymcuelftool-*)
 
 # CY MCU ELF tool executable path.

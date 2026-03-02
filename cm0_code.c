@@ -7,7 +7,7 @@
 *
 *******************************************************************************
 * \copyright
-* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2026), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -31,7 +31,7 @@
 
 #if BLOAD_ENABLE
 
-/* Section reserved to store the application signature. Size is equal to flash row size. */
+/* Section reserved to store the application signature. Size is equal to flash row size */
 __attribute__ ((section(".cy_app_signature"), used)) const uint8_t cyFx2g3AppSignature[512] = {0};
 
 #if defined (__ARMCC_VERSION)
@@ -40,7 +40,6 @@ __attribute__ ((section(".cy_app_signature"), used)) const uint8_t cyFx2g3AppSig
  * \details The intention of the function is to declare boundaries of the memories for the
  *          MDK compilers. For the rest of the supported compilers, this is done using
  *          linker configuration files. The following symbols used by the cymcuelftool.
- * \retval None
  */
 void Cy_AppVerify_MemorySymbols (void)
 {
